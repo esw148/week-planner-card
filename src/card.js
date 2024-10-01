@@ -706,7 +706,7 @@ export class WeekPlannerCard extends LitElement {
 
     _handleDayClick(day) {
         //this._currentEventDetails = event;
-        alert(${day.date.day});
+        alert(day.date.day);
     }
     _closeDialog() {
         this._currentEventDetails = null;

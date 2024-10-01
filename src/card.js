@@ -90,6 +90,7 @@ export class WeekPlannerCard extends LitElement {
             _isLoading: { type: Boolean },
             _error: { type: String },
             _currentEventDetails: { type: Object }
+            _newEventDetails: { type: Object }
         }
     }
 
@@ -208,6 +209,7 @@ export class WeekPlannerCard extends LitElement {
                         ${this._renderDays()}
                     </div>
                     ${this._renderEventDetailsDialog()}
+                    ${this._renderNewEventDialog()}
                     ${this._isLoading ?
                         html`<div class="loader"></div>` :
                         ''
@@ -334,6 +336,28 @@ export class WeekPlannerCard extends LitElement {
         `;
     }
 
+    _renderNewEventDialog() {
+        if (!this._newEventDetails) {
+            return html``;
+        }
+
+        return html`
+            <ha-dialog
+                open
+                @closed="${this._closeNewDialog}"
+                .heading="${this._renderNewEventDetailsDialogHeading()}"
+            >
+                <div class="content">
+                    <div class="calendar">
+                        <ha-icon icon="mdi:calendar-account"></ha-icon>
+                        <div class="info">
+                            New event added!
+                        </div>
+                    </div>
+                </div>
+            </ha-dialog>
+        `;
+    }
     _renderEventDetailsDialog() {
         if (!this._currentEventDetails) {
             return html``;
@@ -379,6 +403,19 @@ export class WeekPlannerCard extends LitElement {
                     }
                 </div>
             </ha-dialog>
+        `;
+    }
+
+    _renderNewEventDetailsDialogHeading() {
+        return html`
+            <div class="header_title">
+                <span>New Event Added</span>
+                <ha-icon-button
+                    .label="${this.hass?.localize('ui.dialogs.generic.close') ?? 'Close'}"
+                    dialogAction="close"
+                    class="header_button"
+                ><ha-icon icon="mdi:close"></ha-icon></ha-icon-button>
+            </div>
         `;
     }
 
@@ -707,14 +744,19 @@ export class WeekPlannerCard extends LitElement {
     _handleDayClick(day) {
         //this._currentEventDetails = event;
         //alert(day.date.day);
-        alert(this._calendars[0].entity);
+        //alert(this._calendars[0].entity);
         this.hass.callService("calendar", "create_event", {
             entity_id: this._calendars[0].entity,
-            summary: "Test Event",
+            summary: "Test Event" . day.date.toISODate(),
             description: "Test description",
-            start_date_time: "2024-10-01 15:55:00",
-            end_date_time: "2024-10-01 16:00:00",
+            start_date_time: day.date.toISODate() + " 17:55:00",
+            end_date_time: day.date.toISODate() + " 18:00:00",
           });
+
+          this._newEventDetails = day;
+    }
+    _closeNewDialog() {
+        this._newEventDetails = null;
     }
     _closeDialog() {
         this._currentEventDetails = null;

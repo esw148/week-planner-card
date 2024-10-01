@@ -247,7 +247,7 @@ export class WeekPlannerCard extends LitElement {
                 }
                 return html`
                     <div class="day ${day.class}" data-date="${day.date.day}" data-weekday="${day.date.weekday}" data-month="${day.date.month}" data-year="${day.date.year}" data-week="${day.date.weekNumber}">
-                        <div class="date">
+                        <div class="date" @click="${() => { this._handleDayClick(day) }}">
                             ${this._dayFormat ?
                                 unsafeHTML(day.date.toFormat(this._dayFormat)) :
                                 html`
@@ -704,6 +704,10 @@ export class WeekPlannerCard extends LitElement {
         this._currentEventDetails = event;
     }
 
+    _handleDayClick(day) {
+        //this._currentEventDetails = event;
+        alert(${day.date.day});
+    }
     _closeDialog() {
         this._currentEventDetails = null;
     }

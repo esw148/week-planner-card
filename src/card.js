@@ -747,7 +747,7 @@ export class WeekPlannerCard extends LitElement {
         //alert(this._calendars[0].entity);
         this.hass.callService("calendar", "create_event", {
             entity_id: this._calendars[0].entity,
-            summary: "Test Event" . day.date.toISODate(),
+            summary: "Test Event" + day.date.toISODate(),
             description: "Test description",
             start_date_time: day.date.toISODate() + " 17:55:00",
             end_date_time: day.date.toISODate() + " 18:00:00",

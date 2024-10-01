@@ -89,7 +89,7 @@ export class WeekPlannerCard extends LitElement {
             _config: { type: Object },
             _isLoading: { type: Boolean },
             _error: { type: String },
-            _currentEventDetails: { type: Object }
+            _currentEventDetails: { type: Object },
             _newEventDetails: { type: Object }
         }
     }

@@ -706,7 +706,14 @@ export class WeekPlannerCard extends LitElement {
 
     _handleDayClick(day) {
         //this._currentEventDetails = event;
-        alert(day.date.day);
+        //alert(day.date.day);
+        this.hass.callService("calendar", "create_event", {
+            entity_id: this._calendars[0],
+            summary: "Test Event",
+            description: "Test description",
+            start_date_time: "2024-10-01 15:55:00",
+            end_date_time: "2024-10-01 16:00:00",
+          });
     }
     _closeDialog() {
         this._currentEventDetails = null;

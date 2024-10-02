@@ -345,6 +345,10 @@ export class WeekPlannerCard extends LitElement {
             start_time: null,
             end_time: null,
         });
+        if (!customElements.get("ha-form")) {
+            alert("loading ha-form");
+            (customElements.get("hui-button-card"))?.getConfigElement();
+        }
         return html`
             <ha-dialog
                 open

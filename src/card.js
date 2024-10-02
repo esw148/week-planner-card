@@ -354,7 +354,10 @@ export class WeekPlannerCard extends LitElement {
                             New event added!
                         </div>
                     </div>
-                    <ha-textarea>${this._newEventDetails.date.toISODate()}</ha-textarea>
+                    <ha-textfield type="text" label="Event Title" placeholder="New Event Name"></ha-textfield>
+                    <ha-textfield disabled="disabled" type="date" label="Event Date" value="${this._newEventDetails.date.toISODate()}"></ha-textfield>
+                    <ha-textfield type="time" label="Start Time" value="12:00"></ha-textfield>
+                    <ha-textfield type="time" label="End Time" value="13:00"></ha-textfield>                    
                 </div>
             </ha-dialog>
         `;

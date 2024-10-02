@@ -368,9 +368,9 @@ export class WeekPlannerCard extends LitElement {
                     <ha-textfield type="time" label="End Time" value="13:00"></ha-textfield><br />
                     <ha-form
                         .hass=${this.hass}
-                        .data=${this._newEvent}  <!-- needs to be the object that has start_time -->
+                        .data=${this._newEvent}
                         .schema=${[{name: "start_time", selector: { time: {} }}]}
-                        @value-changed=${this._startTimeChanged} <!-- will return mutated object passed in "data" as ev.target.value -->
+                        @value-changed=${this._startTimeChanged}
                     ></ha-form>
                 </div>
             </ha-dialog>

@@ -354,6 +354,7 @@ export class WeekPlannerCard extends LitElement {
                             New event added!
                         </div>
                     </div>
+                    <ha-textarea>${this._newEventDetails.date.toISODate()}</ha-textarea>
                 </div>
             </ha-dialog>
         `;

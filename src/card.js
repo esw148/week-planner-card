@@ -90,7 +90,8 @@ export class WeekPlannerCard extends LitElement {
             _isLoading: { type: Boolean },
             _error: { type: String },
             _currentEventDetails: { type: Object },
-            _newEventDetails: { type: Object }
+            _newEventDetails: { type: Object },
+            _newEvent: { type: Object }
         }
     }
 
@@ -340,7 +341,7 @@ export class WeekPlannerCard extends LitElement {
         if (!this._newEventDetails) {
             return html``;
         }
-
+        _newEvent.start_time = "01:00";
         return html`
             <ha-dialog
                 open
@@ -354,13 +355,23 @@ export class WeekPlannerCard extends LitElement {
                             New event added!
                         </div>
                     </div>
-                    <ha-textfield type="text" label="Event Title" placeholder="New Event Name"></ha-textfield>
-                    <ha-textfield disabled="disabled" type="date" label="Event Date" value="${this._newEventDetails.date.toISODate()}"></ha-textfield>
-                    <ha-textfield type="time" label="Start Time" value="12:00"></ha-textfield>
-                    <ha-textfield type="time" label="End Time" value="13:00"></ha-textfield>                    
+                    <ha-textfield type="text" label="Event Title" placeholder="New Event Name"></ha-textfield><br />
+                    <ha-textfield disabled="disabled" type="date" label="Event Date" value="${this._newEventDetails.date.toISODate()}"></ha-textfield><br />
+                    <ha-textfield type="time" label="Start Time" value="12:00"></ha-textfield><br />
+                    <ha-textfield type="time" label="End Time" value="13:00"></ha-textfield><br />
+                    <ha-form
+                        .hass=${this.hass}
+                        .data=${this._newEvent}  <!-- needs to be the object that has start_time -->
+                        .schema=${[{name: "start_time", selector: { time: {} }}]}
+                        @value-changed=${this._startTimeChanged} <!-- will return mutated object passed in "data" as ev.target.value -->
+                    ></ha-form>
                 </div>
             </ha-dialog>
         `;
+    }
+
+    _startTimeChanged(e) {
+        alert(e.target.value);
     }
     _renderEventDetailsDialog() {
         if (!this._currentEventDetails) {

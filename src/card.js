@@ -341,7 +341,10 @@ export class WeekPlannerCard extends LitElement {
         if (!this._newEventDetails) {
             return html``;
         }
-        this._newEvent.start_time = "01:00";
+        this._newEvent = Object.create({
+            start_time: null,
+            end_time: null,
+        });
         return html`
             <ha-dialog
                 open

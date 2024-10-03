@@ -344,6 +344,7 @@ export class WeekPlannerCard extends LitElement {
         this._newEvent = Object.create({
             start_time: null,
             end_time: null,
+            event_title: null,
             event_date: this._newEventDetails.date.toISODate(),
         });
         if (!customElements.get("ha-form")) {

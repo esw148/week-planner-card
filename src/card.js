@@ -394,13 +394,13 @@ export class WeekPlannerCard extends LitElement {
     }
 
     _startTimeChanged(e) {
-        this._newEvent.start_time = e.detail.value;
+        this._newEvent.start_time = e.detail.value.start_time;
     }
     _endTimeChanged(e) {
-        this._newEvent.end_time = e.detail.value;
+        this._newEvent.end_time = e.detail.value.end_time;
     }
     _eventTitleChanged(e) {
-        this._newEvent.event_title = e.detail.value;
+        this._newEvent.event_title = e.detail.value.event_title;
     }
 
     _handleNewEventSubmit(newEvent) {
@@ -411,7 +411,7 @@ export class WeekPlannerCard extends LitElement {
             start_date_time: newEvent.event_date + " " + newEvent.start_time,
             end_date_time: newEvent.event_date + " " + newEvent.end_time,
           });
-          
+
           this._newEventDetails = null;
     }
 

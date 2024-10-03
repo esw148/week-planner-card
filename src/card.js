@@ -838,7 +838,10 @@ export class WeekPlannerCard extends LitElement {
           this._newEventDetails = day;
     }
     _closeNewDialog() {
+        alert('ClosingNewDiaglog');
+        console.log(this._newEvent);
         if (this._newEvent.submitted == 'close'){
+            alert('submitted = close, setting to null');
             this._newEventDetails = null;
         }
     }

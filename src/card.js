@@ -352,7 +352,7 @@ export class WeekPlannerCard extends LitElement {
                     <div class="calendar">
                         <ha-icon icon="mdi:calendar-account"></ha-icon>
                         <div class="info">
-                            ${this._newEventDetails.date.toISODate()}
+                            ${this._newEvent.event_date}
                         </div>
                     </div>    
                 </div>
@@ -380,7 +380,7 @@ export class WeekPlannerCard extends LitElement {
                     <div class="calendar">
                         <ha-icon icon="mdi:calendar-account"></ha-icon>
                         <div class="info">
-                            ${this._newEventDetails.date.toISODate()}
+                            ${this._newEvent.event_date}
                         </div>
                     </div>
                     <!-- <ha-textfield type="text" label="Event Title" placeholder="New Event Name"></ha-textfield><br /> -->

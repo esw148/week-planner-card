@@ -839,14 +839,16 @@ export class WeekPlannerCard extends LitElement {
     }
 
     _closeNewEventConfirmation() {
+        alert('ClosingNewEventConfirmationDiaglog');
+        console.log(this._newEvent);
             this._newEventDetails = null;
     }
 
     _closeNewDialog() {
-        //alert('ClosingNewDiaglog');
-        //console.log(this._newEvent);
+        alert('ClosingNewDiaglog');
+        console.log(this._newEvent);
         if (this._newEvent.submitted){
-            //alert('submitted = close, setting to null');
+            alert('submitted = close, setting to null');
             this._newEventDetails = this._newEvent;
         }
     }

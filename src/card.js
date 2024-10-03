@@ -344,6 +344,7 @@ export class WeekPlannerCard extends LitElement {
         this._newEvent = Object.create({
             start_time: null,
             end_time: null,
+            event_date: this._newEventDetails.date.toISODate(),
         });
         if (!customElements.get("ha-form")) {
             alert("loading ha-form");
@@ -362,28 +363,58 @@ export class WeekPlannerCard extends LitElement {
                             New event added!
                         </div>
                     </div>
-                    <ha-textfield type="text" label="Event Title" placeholder="New Event Name"></ha-textfield><br />
-                    <ha-textfield disabled="disabled" type="date" label="Event Date" value="${this._newEventDetails.date.toISODate()}"></ha-textfield><br />
-                    <ha-textfield type="time" label="Start Time" value="12:00"></ha-textfield><br />
+                    <!-- <ha-textfield type="text" label="Event Title" placeholder="New Event Name"></ha-textfield><br /> -->
+                    
+                    <!-- <ha-textfield type="time" label="Start Time" value="12:00"></ha-textfield><br />
                     <ha-textfield type="time" label="End Time" value="13:00"></ha-textfield><br />
+                    -->
+                    <ha-form
+                        .hass=${this.hass}
+                        .data=${this._newEvent}
+                        .schema=${[{name: "event_title", selector: { text: {} }}]}
+                        @value-changed=${this._eventTitleChanged}
+                    ></ha-form>    
+                    <ha-textfield disabled="disabled" type="date" label="Event Date" value="${this._newEventDetails.date.toISODate()}"></ha-textfield><br />
                     <ha-form
                         .hass=${this.hass}
                         .data=${this._newEvent}
                         .schema=${[{name: "start_time", selector: { time: {} }}]}
                         @value-changed=${this._startTimeChanged}
                     ></ha-form>
+                    <ha-form
+                        .hass=${this.hass}
+                        .data=${this._newEvent}
+                        .schema=${[{name: "end_time", selector: { time: {} }}]}
+                        @value-changed=${this._endTimeChanged}
+                    ></ha-form>
+                    <ha-button type="button" value="Add Event" @click="${() => { this._handleNewEventSubmit(this._newEvent) }}"></ha-button>
                 </div>
             </ha-dialog>
         `;
     }
 
     _startTimeChanged(e) {
-        console.log(e);
-        console.log('test');
-        console.log(this);
-        //alert(e.target.value);
-        alert(e);
+        this._newEvent.start_time = e.detail.value;
     }
+    _endTimeChanged(e) {
+        this._newEvent.end_time = e.detail.value;
+    }
+    _eventTitleChanged(e) {
+        this._newEvent.event_title = e.detail.value;
+    }
+
+    _handleNewEventSubmit(newEvent) {
+        //description: "Test description",
+        this.hass.callService("calendar", "create_event", {
+            entity_id: this._calendars[0].entity,
+            summary: newEvent.event_title,
+            start_date_time: newEvent.event_date + " " + newEvent.start_time,
+            end_date_time: newEvent.event_date + " " + newEvent.end_time,
+          });
+          
+          this._newEventDetails = null;
+    }
+
     _renderEventDetailsDialog() {
         if (!this._currentEventDetails) {
             return html``;
@@ -771,14 +802,14 @@ export class WeekPlannerCard extends LitElement {
         //this._currentEventDetails = event;
         //alert(day.date.day);
         //alert(this._calendars[0].entity);
-        this.hass.callService("calendar", "create_event", {
+        /*this.hass.callService("calendar", "create_event", {
             entity_id: this._calendars[0].entity,
             summary: "Test Event" + day.date.toISODate(),
             description: "Test description",
             start_date_time: day.date.toISODate() + " 17:55:00",
             end_date_time: day.date.toISODate() + " 18:00:00",
           });
-
+*/
           this._newEventDetails = day;
     }
     _closeNewDialog() {

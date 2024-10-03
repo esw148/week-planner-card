@@ -341,6 +341,25 @@ export class WeekPlannerCard extends LitElement {
         if (!this._newEventDetails) {
             return html``;
         }
+        else if (this._newEventDetails.submitted) {
+            return html`
+            <ha-dialog
+                open
+                @closed="${this._closeNewDialog}"
+                .heading="${this._renderNewEventDetailsDialogHeading('New Event Created')}"
+            >
+                <div class="content">
+                    <div class="calendar">
+                        <ha-icon icon="mdi:calendar-account"></ha-icon>
+                        <div class="info">
+                            ${this._newEventDetails.date.toISODate()}
+                        </div>
+                    </div>    
+                </div>
+            </ha-dialog>
+            `;
+        }
+
         this._newEvent = Object.create({
             start_time: null,
             end_time: null,
@@ -348,20 +367,20 @@ export class WeekPlannerCard extends LitElement {
             event_date: this._newEventDetails.date.toISODate(),
         });
         if (!customElements.get("ha-form")) {
-            alert("loading ha-form");
+            //alert("loading ha-form");
             (customElements.get("hui-button-card"))?.getConfigElement();
         }
         return html`
             <ha-dialog
                 open
                 @closed="${this._closeNewDialog}"
-                .heading="${this._renderNewEventDetailsDialogHeading()}"
+                .heading="${this._renderNewEventDetailsDialogHeading('Create New Event')}"
             >
                 <div class="content">
                     <div class="calendar">
                         <ha-icon icon="mdi:calendar-account"></ha-icon>
                         <div class="info">
-                            New event added!
+                            ${this._newEventDetails.date.toISODate()}
                         </div>
                     </div>
                     <!-- <ha-textfield type="text" label="Event Title" placeholder="New Event Name"></ha-textfield><br /> -->
@@ -373,22 +392,25 @@ export class WeekPlannerCard extends LitElement {
                         .hass=${this.hass}
                         .data=${this._newEvent}
                         .schema=${[{name: "event_title", selector: { text: {} }}]}
+                        .label="Event Title"
                         @value-changed=${this._eventTitleChanged}
                     ></ha-form>    
-                    <ha-textfield disabled="disabled" type="date" label="Event Date" value="${this._newEventDetails.date.toISODate()}"></ha-textfield><br />
+                    <!-- <ha-textfield disabled="disabled" type="date" label="Event Date" value="${this._newEventDetails.date.toISODate()}"></ha-textfield><br /> -->
                     <ha-form
                         .hass=${this.hass}
                         .data=${this._newEvent}
                         .schema=${[{name: "start_time", selector: { time: {} }}]}
+                        .label="Start Time"
                         @value-changed=${this._startTimeChanged}
                     ></ha-form>
                     <ha-form
                         .hass=${this.hass}
                         .data=${this._newEvent}
                         .schema=${[{name: "end_time", selector: { time: {} }}]}
+                        .label="End Time"
                         @value-changed=${this._endTimeChanged}
                     ></ha-form>
-                    <ha-button type="button" value="Add Event" @click="${() => { this._handleNewEventSubmit(this._newEvent) }}"></ha-button>
+                    <ha-button type="button" value="Add" @click="${() => { this._handleNewEventSubmit(this._newEvent) }}">Add Event</ha-button>
                 </div>
             </ha-dialog>
         `;
@@ -413,7 +435,7 @@ export class WeekPlannerCard extends LitElement {
             end_date_time: newEvent.event_date + " " + newEvent.end_time,
           });
 
-          this._newEventDetails = null;
+          this._newEventDetails = Object.create({submitted: true});
     }
 
     _renderEventDetailsDialog() {
@@ -464,10 +486,10 @@ export class WeekPlannerCard extends LitElement {
         `;
     }
 
-    _renderNewEventDetailsDialogHeading() {
+    _renderNewEventDetailsDialogHeading(title_text) {
         return html`
             <div class="header_title">
-                <span>New Event Added</span>
+                <span>${title_text}</span>
                 <ha-icon-button
                     .label="${this.hass?.localize('ui.dialogs.generic.close') ?? 'Close'}"
                     dialogAction="close"
@@ -814,7 +836,9 @@ export class WeekPlannerCard extends LitElement {
           this._newEventDetails = day;
     }
     _closeNewDialog() {
-        this._newEventDetails = null;
+        if (this._newEventDetails.submitted){
+            this._newEventDetails = null;
+        }
     }
     _closeDialog() {
         this._currentEventDetails = null;

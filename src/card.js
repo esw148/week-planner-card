@@ -342,6 +342,7 @@ export class WeekPlannerCard extends LitElement {
             return html``;
         }
         else if (this._newEventDetails.submitted) {
+            this._newEventDetails.submitted = 'close';
             return html`
             <ha-dialog
                 open
@@ -365,6 +366,7 @@ export class WeekPlannerCard extends LitElement {
             end_time: null,
             event_title: null,
             event_date: this._newEventDetails.date.toISODate(),
+            submitted: false,
         });
         if (!customElements.get("ha-form")) {
             //alert("loading ha-form");
@@ -434,7 +436,7 @@ export class WeekPlannerCard extends LitElement {
             start_date_time: newEvent.event_date + " " + newEvent.start_time,
             end_date_time: newEvent.event_date + " " + newEvent.end_time,
           });
-
+          this._newEvent.submitted = true;
           this._newEventDetails = Object.create({submitted: true});
     }
 
@@ -836,7 +838,7 @@ export class WeekPlannerCard extends LitElement {
           this._newEventDetails = day;
     }
     _closeNewDialog() {
-        if (this._newEventDetails.submitted){
+        if (this._newEvent.submitted == 'close'){
             this._newEventDetails = null;
         }
     }

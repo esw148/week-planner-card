@@ -346,7 +346,7 @@ export class WeekPlannerCard extends LitElement {
             return html`
             <ha-dialog
                 open
-                @closed="${this._closeNewDialog}"
+                @closed="${this._closeNewEventConfirmation}"
                 .heading="${this._renderNewEventDetailsDialogHeading('New Event Created')}"
             >
                 <div class="content">
@@ -837,12 +837,17 @@ export class WeekPlannerCard extends LitElement {
 */
           this._newEventDetails = day;
     }
-    _closeNewDialog() {
-        alert('ClosingNewDiaglog');
-        console.log(this._newEvent);
-        if (this._newEvent.submitted == 'close'){
-            alert('submitted = close, setting to null');
+
+    _closeNewEventConfirmation() {
             this._newEventDetails = null;
+    }
+
+    _closeNewDialog() {
+        //alert('ClosingNewDiaglog');
+        //console.log(this._newEvent);
+        if (this._newEvent.submitted){
+            //alert('submitted = close, setting to null');
+            this._newEventDetails = this._newEvent;
         }
     }
     _closeDialog() {

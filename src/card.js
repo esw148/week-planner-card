@@ -378,7 +378,11 @@ export class WeekPlannerCard extends LitElement {
     }
 
     _startTimeChanged(e) {
-        alert(e.target.value);
+        console.log(e);
+        console.log('test');
+        console.log(this);
+        //alert(e.target.value);
+        alert(e);
     }
     _renderEventDetailsDialog() {
         if (!this._currentEventDetails) {

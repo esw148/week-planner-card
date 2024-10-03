@@ -342,7 +342,7 @@ export class WeekPlannerCard extends LitElement {
             return html``;
         }
         else if (this._newEventDetails.submitted) {
-            this._newEventDetails.submitted = 'close';
+            this._newEvent.submitted = 'close';
             return html`
             <ha-dialog
                 open

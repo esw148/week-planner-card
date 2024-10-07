@@ -245,7 +245,11 @@ export class WeekPlannerCard extends LitElement {
             .data=${this._newEvent}
             .schema=${[
                 {name: "event_calendar", selector: { select: { multiple: false, mode: "list", options: this._calendars.map((calendar) => {
-                   return { label: calendar.name ?? calendar.entity, value: calendar.entity }
+                   console.log(calendar);
+                   console.log('Name exists? ' + calendar.name );
+                   console.log('Use instead ?? ' + calendar.name ?? calendar.entity);
+                   console.log('Use instead || ' + calendar.name || calendar.entity);
+                    return { label: calendar.name || calendar.entity, value: calendar.entity }
                 })
                 },
                 }}

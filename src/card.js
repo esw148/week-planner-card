@@ -409,7 +409,19 @@ export class WeekPlannerCard extends LitElement {
                     <!-- <ha-textfield type="time" label="Start Time" value="12:00"></ha-textfield><br />
                     <ha-textfield type="time" label="End Time" value="13:00"></ha-textfield><br />
                     -->
-                    ${this._renderCalendarSelection}
+                    <ha-form
+                        .hass=${this._hass}
+                        .data=${this._newEvent}
+                        .schema=${[
+                            {name: "event_calendar", selector: { select: { multiple: true, mode: "list", options: this._calendars.map((calendar) => {
+                            return { label: calendar.name, value: calendar.entity }
+                            })
+                            },
+                            }}
+                        ]}
+                        .computeLabel=${this._computeLabel}
+                        @value-changed=${this._calendarChanged} 
+                        ></ha-form>
                     <ha-form
                         .hass=${this.hass}
                         .data=${this._newEvent}

@@ -238,6 +238,24 @@ export class WeekPlannerCard extends LitElement {
         `;
     }
 
+    _renderCalendarSelection() {
+        return html`
+        <ha-form
+            .hass=${this._hass}
+            .data=${this._newEvent}
+            .schema=${[
+                {name: "event_calendar", selector: { select: { multiple: true, mode: "list", options: this._calendars.map((calendar) => {
+                   return { label: calendar.name, value: calendar.entity }
+                })
+                },
+                }}
+            ]}
+            .computeLabel=${this._computeLabel}
+            @value-changed=${this._calendarChanged} 
+            ></ha-form>
+        `;
+    }
+
     _renderDays() {
         if (!this._days) {
             return html``;
@@ -362,6 +380,7 @@ export class WeekPlannerCard extends LitElement {
         }
 
         this._newEvent = Object.create({
+            event_calendar: null,
             start_time: null,
             end_time: null,
             event_title: null,
@@ -390,6 +409,7 @@ export class WeekPlannerCard extends LitElement {
                     <!-- <ha-textfield type="time" label="Start Time" value="12:00"></ha-textfield><br />
                     <ha-textfield type="time" label="End Time" value="13:00"></ha-textfield><br />
                     -->
+                    ${this._renderCalendarSelection}
                     <ha-form
                         .hass=${this.hass}
                         .data=${this._newEvent}
@@ -427,11 +447,14 @@ export class WeekPlannerCard extends LitElement {
     _eventTitleChanged(e) {
         this._newEvent.event_title = e.detail.value.event_title;
     }
+    _calendarChanged(e) {
+        this._newEvent.event_calendar = e.detail.value.event_calendar;
+    }
 
     _handleNewEventSubmit(newEvent) {
         //description: "Test description",
         this.hass.callService("calendar", "create_event", {
-            entity_id: this._calendars[0].entity,
+            entity_id: newEvent.event_calendar ?? this._calendars[0].entity,
             summary: newEvent.event_title,
             start_date_time: newEvent.event_date + " " + newEvent.start_time,
             end_date_time: newEvent.event_date + " " + newEvent.end_time,

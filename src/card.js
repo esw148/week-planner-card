@@ -473,6 +473,7 @@ export class WeekPlannerCard extends LitElement {
           });
           this._newEvent.submitted = true;
           this._newEventDetails = Object.create({submitted: true});
+          this._updateEvents();
     }
 
     _renderEventDetailsDialog() {

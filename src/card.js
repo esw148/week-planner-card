@@ -413,7 +413,7 @@ export class WeekPlannerCard extends LitElement {
                         .hass=${this._hass}
                         .data=${this._newEvent}
                         .schema=${[
-                            {name: "event_calendar", selector: { select: { multiple: false, mode: "list", options: this._calendars.map((calendar) => {
+                            {name: "event_calendar", selector: { select: { multiple: false, mode: "dropdown", options: this._calendars.map((calendar) => {
                                 return { label: calendar.name ?? calendar.entity, value: calendar.entity }
                             })
                             },

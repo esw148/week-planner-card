@@ -424,7 +424,7 @@ export class WeekPlannerCard extends LitElement {
                     <ha-form
                         .hass=${this.hass}
                         .data=${this._newEvent}
-                        .label="Event Title"
+                        .computeLabel=${this._computeLabel}
                         .schema=${[{name: "event_title", label: "Event Title", selector: { text: {} }}]}
                         @value-changed=${this._eventTitleChanged}
                     ></ha-form>    
@@ -447,6 +447,9 @@ export class WeekPlannerCard extends LitElement {
         `;
     }
 
+    _computeLabel(schema,data){
+        return schema.label ? schema.label : schema.name ? schema.name : "";
+    }
     _startTimeChanged(e) {
         console.log(e);
         this._newEvent.start_time = e.detail.value.start_time;

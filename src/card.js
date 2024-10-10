@@ -412,8 +412,9 @@ export class WeekPlannerCard extends LitElement {
                     <ha-form
                         .hass=${this._hass}
                         .data=${this._newEvent}
+                        .computeLabel=${this._computeLabel}
                         .schema=${[
-                            {name: "Event Calendar", id: "event_calendar", selector: { select: { multiple: false, mode: "dropdown", options: this._calendars.map((calendar) => {
+                            {name: "event_calendar", label: "Event Calendar", selector: { select: { multiple: false, mode: "dropdown", options: this._calendars.map((calendar) => {
                                 return { label: calendar.name ?? calendar.entity, value: calendar.entity }
                             })
                             },
@@ -432,13 +433,15 @@ export class WeekPlannerCard extends LitElement {
                     <ha-form
                         .hass=${this.hass}
                         .data=${this._newEvent}
-                        .schema=${[{name: "Start Time", id: "start_time", selector: { time: {} }}]}
+                        .computeLabel=${this._computeLabel}
+                        .schema=${[{name: "start_time", label: "Start Time", selector: { time: {} }}]}
                         @value-changed=${this._startTimeChanged}
                     ></ha-form>
                     <ha-form
                         .hass=${this.hass}
                         .data=${this._newEvent}
-                        .schema=${[{name: "End Time", id: "end_time", selector: { time: {} }}]}
+                        .computeLabel=${this._computeLabel}
+                        .schema=${[{name: "end_time", label: "End Time", selector: { time: {} }}]}
                         @value-changed=${this._endTimeChanged}
                     ></ha-form>
                     <ha-button type="button" value="Add" @click="${() => { this._handleNewEventSubmit(this._newEvent) }}">Add Event</ha-button>

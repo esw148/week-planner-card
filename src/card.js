@@ -425,7 +425,7 @@ export class WeekPlannerCard extends LitElement {
                         .hass=${this.hass}
                         .data=${this._newEvent}
                         .label="Event Title"
-                        .schema=${[{name: "event_title", selector: { text: {} }}]}
+                        .schema=${[{name: "event_title", label: "Event Title", selector: { text: {} }}]}
                         @value-changed=${this._eventTitleChanged}
                     ></ha-form>    
                     <!-- <ha-textfield disabled="disabled" type="date" label="Event Date" value="${this._newEventDetails.date.toISODate()}"></ha-textfield><br /> -->

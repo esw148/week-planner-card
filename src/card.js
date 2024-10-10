@@ -447,6 +447,7 @@ export class WeekPlannerCard extends LitElement {
     }
 
     _startTimeChanged(e) {
+        console.log(e);
         this._newEvent.start_time = e.detail.value.start_time;
     }
     _endTimeChanged(e) {
